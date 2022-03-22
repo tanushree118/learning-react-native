@@ -8,17 +8,24 @@
  * @format
  */
 
-import React from 'react';
-import {Text, View, Image} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, Button} from 'react-native';
 
-const CatApp = () => {
+const Cat = (props: {name: string}) => {
+  const [isHungry, setIsHungry] = useState(true);
   return (
     <View>
-      <Image
-        source={{uri: 'https://reactnative.dev/docs/assets/p_cat1.png'}}
-        style={{width: 200, height: 200}}
+      <Text>
+        {' '}
+        I am {props.name}, and I am {(isHungry && 'hungry') || 'full'}
+      </Text>
+      <Button
+        onPress={() => {
+          setIsHungry(false);
+        }}
+        disabled={!isHungry}
+        title={isHungry ? 'Pour me some milk, please!' : 'Thank you'}
       />
-      <Text>Hello, I am your Cat</Text>
     </View>
   );
 };
@@ -26,7 +33,8 @@ const CatApp = () => {
 const App = () => {
   return (
     <View>
-      <CatApp />
+      <Cat name={'Munkustrap'} />
+      <Cat name={'Spot'} />
     </View>
   );
 };
