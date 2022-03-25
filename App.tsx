@@ -9,7 +9,7 @@
  */
 
 import React, {useState} from 'react';
-import {Text, View, Button} from 'react-native';
+import {Text, View, Button, TextInput} from 'react-native';
 
 const Cat = (props: {name: string}) => {
   const [isHungry, setIsHungry] = useState(true);
@@ -30,11 +30,32 @@ const Cat = (props: {name: string}) => {
   );
 };
 
+const PizzaTranslator = () => {
+  const [text, setText] = useState('');
+  return (
+    <View style={{padding: 10}}>
+      <TextInput
+        style={{height: 40}}
+        placeholder={'Type some text'}
+        onChangeText={(newText: string) => setText(newText)}
+        defaultValue={text}
+      />
+      <Text>
+        {text
+          .split(' ')
+          ?.map(word => word && '🍕')
+          .join('')}
+      </Text>
+    </View>
+  );
+};
+
 const App = () => {
   return (
     <View>
       <Cat name={'Munkustrap'} />
       <Cat name={'Spot'} />
+      <PizzaTranslator />
     </View>
   );
 };
