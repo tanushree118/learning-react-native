@@ -8,55 +8,32 @@
  * @format
  */
 
+import {NativeBaseProvider} from 'native-base';
 import React, {useState} from 'react';
-import {Text, View, Button, TextInput} from 'react-native';
-
-const Cat = (props: {name: string}) => {
-  const [isHungry, setIsHungry] = useState(true);
-  return (
-    <View>
-      <Text>
-        {' '}
-        I am {props.name}, and I am {(isHungry && 'hungry') || 'full'}
-      </Text>
-      <Button
-        onPress={() => {
-          setIsHungry(false);
-        }}
-        disabled={!isHungry}
-        title={isHungry ? 'Pour me some milk, please!' : 'Thank you'}
-      />
-    </View>
-  );
-};
-
-const PizzaTranslator = () => {
-  const [text, setText] = useState('');
-  return (
-    <View style={{padding: 10}}>
-      <TextInput
-        style={{height: 40}}
-        placeholder={'Type some text'}
-        onChangeText={(newText: string) => setText(newText)}
-        defaultValue={text}
-      />
-      <Text>
-        {text
-          .split(' ')
-          ?.map(word => word && '🍕')
-          .join('')}
-      </Text>
-    </View>
-  );
-};
+import {View} from 'react-native';
+import AppBar from './components/appBar';
+import LoginPage from './components/loginPage';
+import SignUpPage from './components/signUpPage';
 
 const App = () => {
+  const [isLoginClicked, setIsLoginClicked] = useState(false);
+  const [isSignUpClicked, setIsSignUpClicked] = useState(false);
+  const onLoginClick = () => {
+    setIsLoginClicked(true);
+    setIsSignUpClicked(false);
+  };
+  const onSignUpClick = () => {
+    setIsSignUpClicked(true);
+    setIsLoginClicked(false);
+  };
   return (
-    <View>
-      <Cat name={'Munkustrap'} />
-      <Cat name={'Spot'} />
-      <PizzaTranslator />
-    </View>
+    <NativeBaseProvider>
+      <View>
+        <AppBar onLoginClick={onLoginClick} onSignUpClick={onSignUpClick} />
+        {isLoginClicked && <LoginPage onSignUpClick={onSignUpClick} />}
+        {isSignUpClicked && <SignUpPage />}
+      </View>
+    </NativeBaseProvider>
   );
 };
 
